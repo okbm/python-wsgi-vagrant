@@ -61,6 +61,14 @@ def setup_packages():
     # other
     cuisine.package_ensure('mysql-server-5.5')
 
+    # pythonを動かすためにいろいろ
+    packages = '''
+        uwsgi uwsgi-plugin-python nginx
+        '''.split()
+
+    for pkg in packages:
+        cuisine.package_ensure(pkg)
+
 @task
 def restart_application():
     puts(green('Restarting application'))
