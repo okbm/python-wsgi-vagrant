@@ -7,7 +7,9 @@ from cuisine import run
 import cuisine
 
 env.hosts = ['vagrant@192.168.56.101']
+#env.key_filename = ['~/.ssh/id_rsa']
 #env.port = 2222
+
 env.user = 'vagrant'
 env.password = 'vagrant'
 env.forward_agent = True
@@ -43,20 +45,20 @@ def setup_packages():
     # python 3.4 install
     run('wget https://www.python.org/ftp/python/3.4.1/Python-3.4.1.tar.xz')
     run('tar xvf Python-3.4.1.tar.xz && rm -f Python-3.4.1.tar.xz')
-    run('mkdir -p /home/vagrant/local')
+    run('mkdir -p $HOME/local')
     with cd('Python-3.4.1'):
-        run('./configure --prefix=/home/vagrant/local/python-3.4')
+        run('./configure --prefix=$HOME/local/python-3.4')
         run('make')
         run('make install')
 
     sudo('rm -rf Python-3.4.1')
 
     sudo('pip install virtualenv')
-    sudo('virtualenv /home/vagrant/local/python3')
-    run('source /home/vagrant/local/python3/bin/activate')
+    sudo('virtualenv $HOME/local/python3')
+    run('source $HOME/local/python3/bin/activate')
     sudo('pip install ipython')
 
-    run('echo "export PATH=/home/vagrant/local/python-3.4/bin:$PATH" >> /home/vagrant/.bashrc')
+    run('echo "export PATH=$HOME/local/python-3.4/bin:$PATH" >> $HOME/.bashrc')
 
     # other
     cuisine.package_ensure('mysql-server-5.5')
